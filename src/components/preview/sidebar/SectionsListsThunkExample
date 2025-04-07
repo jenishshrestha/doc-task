@@ -1,0 +1,47 @@
+"use client";
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSections } from "@/store/sections/sectionsSlice";
+import { RootState, AppDispatch } from "@/store/store";
+import SectionCard from "./SectionCard";
+
+/**
+ * ==============================================================================
+ * Sections List Component
+ * @description This component displays a list of sections in the sidebar.
+ * ==============================================================================
+ */
+const SectionsLists: React.FC = () => {
+  // Access sections, loading, and error from the Redux state
+  const { sectionJsonData, loading, error } = useSelector(
+    (state: RootState) => state.sectionLists,
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchSections());
+  }, [dispatch]);
+
+  return (
+    <div>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      {sectionJsonData &&
+      sectionJsonData?.data?.sections[0].children.length > 0 ? (
+        <ul>
+          {sectionJsonData?.data?.sections[0].children.map((section) => (
+            <li key={section.id}>
+              <SectionCard {...section} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No data</p>
+      )}
+    </div>
+  );
+};
+
+export default SectionsLists;

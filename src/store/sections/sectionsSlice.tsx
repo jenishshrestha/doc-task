@@ -1,26 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import ApiResponse from "@/@types/sections";
 
 //types for states
 export type SectionStateTypes = {
+  sectionJsonData: ApiResponse;
   loading: boolean;
-  sections: [];
   error: string | undefined | null;
 };
 
 // Initial State
 const initialSectionStates: SectionStateTypes = {
+  sectionJsonData: {} as ApiResponse,
   loading: false,
-  sections: [],
   error: null,
 };
 
 // Async thunk to fetch sections
-// "sections/fetchSections" = "slicename/reducername"
+//'<sliceName>/<actionName>'
 export const fetchSections = createAsyncThunk(
-  "sections/fetchSections",
+  "section/fetchSections",
   async () => {
-    const response = await axios.get("/src/data/sections.json");
+    const response = await axios.get("/api/sections");
     return response.data;
   },
 );
@@ -33,7 +34,7 @@ export const fetchSections = createAsyncThunk(
  */
 
 const sectionSlice = createSlice({
-  name: "sections",
+  name: "section",
   initialState: initialSectionStates,
   reducers: {},
   extraReducers: (builder) => {
@@ -43,7 +44,7 @@ const sectionSlice = createSlice({
       })
       .addCase(fetchSections.fulfilled, (state, action) => {
         state.loading = false;
-        state.sections = action.payload;
+        state.sectionJsonData = action.payload;
       })
       .addCase(fetchSections.rejected, (state, action) => {
         state.loading = false;

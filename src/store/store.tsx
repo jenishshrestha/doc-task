@@ -4,7 +4,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import themeToggleReducer from "./themeToggle/themeToggleSlice";
 
 // "sectionsReducer" is a custom name for the reducer that manages the sections state
-import sectionReducer from "./sections/sectionsSlice";
+import sectionSelectedReducer from "./sections/selectedSectionsSlice";
+
+import sectionsApi from "@/services/sectionsApi";
 
 /**
  * ==============================================================================
@@ -14,10 +16,13 @@ import sectionReducer from "./sections/sectionsSlice";
  */
 const store = configureStore({
   reducer: {
-    // reducer to manage the theme toggle state
     themeToggle: themeToggleReducer,
-    sections: sectionReducer,
+    sectionSelected: sectionSelectedReducer,
+    // Add sectionsApi reducer as well for handling RTK Query cache state
+    [sectionsApi.reducerPath]: sectionsApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sectionsApi.middleware),
 });
 
 export default store;
