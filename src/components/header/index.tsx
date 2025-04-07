@@ -10,18 +10,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
-
-// redux imports
-import { useDispatch } from "react-redux";
-import { toggleTheme } from "@/store/themeToggle/themeToggleSlice";
+import useTheme from "@/hooks/useTheme";
 
 const Header = () => {
-  const dispatch = useDispatch();
-
-  // Function to handle theme toggle
-  const handleThemeToggle = () => {
-    dispatch(toggleTheme());
-  };
+  // custom hook
+  const { handleThemeToggle } = useTheme();
 
   return (
     <>
