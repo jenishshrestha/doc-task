@@ -5,15 +5,16 @@ import {
   clearSelection,
   removeSelected,
 } from "@/store/sections/selectedSectionsSlice";
+import { setHoveredID } from "@/store/sections/sectionHoveredSlice";
 
 /**
  * ========================================================================
- * useTheme Hook
+ * useSelection Section Hook
  * @description Custom hook to access and toggle theme using Redux store.
  * ========================================================================
  */
 
-const useSelectedSections = () => {
+export const useSelectedSections = () => {
   const selectedIds = useAppSelector(
     (state) => state.sectionSelected.selectedIds,
   );
@@ -53,4 +54,25 @@ const useSelectedSections = () => {
   };
 };
 
-export default useSelectedSections;
+/**
+ * ========================================================================
+ * useHovered Section Hook
+ * ========================================================================
+ */
+
+export const useHoveredSection = () => {
+  // current state
+  const hoveredID = useAppSelector((state) => state.sectionHovered.hoveredId);
+
+  // update state
+  const dispatch = useAppDispatch();
+
+  const updateHoveredID = (id: number) => {
+    dispatch(setHoveredID(id));
+  };
+
+  return {
+    hoveredID,
+    updateHoveredID,
+  };
+};

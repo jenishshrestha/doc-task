@@ -6,9 +6,12 @@
  */
 export const getInitials = (label?: string, fallback = "NA"): string => {
   if (!label) return fallback;
-  return label
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
+  // trims and splits by multiple spaces
+  const words = label.trim().split(/\s+/);
+  return (
+    words
+      .map((word) => word.charAt(0))
+      .join("")
+      .toUpperCase() || fallback
+  );
 };
