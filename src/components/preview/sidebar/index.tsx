@@ -5,8 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SectionsLists from "./SectionsLists";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import useSelectedSections from "@/hooks/useSelectedSection";
-import { useFetchSectionsQuery } from "@/services/sectionsApi";
+import { useSelectedSections } from "@/hooks/useSection";
 import Loader from "@/components/loader";
 import { formatRTKQueryError } from "@/lib/formatRtkError";
 import {
@@ -21,11 +20,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-
-import { setSections } from "@/store/sections/sectionsSlice";
+import { useAppSelector } from "@/store/hooks";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 /**
  * ==========================================================================
@@ -33,24 +32,18 @@ import { setSections } from "@/store/sections/sectionsSlice";
  * @returns Sidebar component
  * ==========================================================================
  */
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<{
+  isLoading: boolean;
+  error: FetchBaseQueryError | SerializedError | undefined;
+}> = (props) => {
+  const { isLoading, error } = props;
   /**
-   * Handling the fetched data
+   * Accessing the fetched data
    */
-  const { data: jsonData, error, isLoading } = useFetchSectionsQuery();
-
-  // storing the data in a global state to manipulate
   const sectionsLists = useAppSelector((state) => state.sectionsLists.sections);
 
-  const dispatch = useAppDispatch();
-
-  // set data to a global state
-  useEffect(() => {
-    dispatch(setSections(jsonData?.data?.sections[0].children ?? []));
-  }, [dispatch, jsonData]);
-
   /**
-   * useSelectedSections hook to get selected ids and toggle function
+   * Checkbox select - useSelectedSections hook
    */
   const { selectedIds, selectAll, areAllSelected, clearAll } =
     useSelectedSections();
@@ -115,7 +108,7 @@ const Sidebar: React.FC = () => {
       {/* buttons */}
       <div className="flex shrink-0 items-center justify-between gap-2">
         <Button variant="outline" onClick={toggleSelectAll}>
-          {areAllSelected(jsonData?.data.sections[0].children.length ?? 0)
+          {areAllSelected(sectionsLists.length ?? 0)
             ? "Clear All"
             : "Select All"}
         </Button>

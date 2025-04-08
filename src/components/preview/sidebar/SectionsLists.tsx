@@ -1,7 +1,7 @@
 "use client";
 
 import SectionCard from "./SectionCard";
-import useSelectedSections from "@/hooks/useSelectedSection";
+import { useSelectedSections } from "@/hooks/useSection";
 import { useAppSelector } from "@/store/hooks";
 
 /**
@@ -20,10 +20,11 @@ const SectionsLists: React.FC = () => {
     <div>
       {sectionsLists.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {sectionsLists.map((section, index) => (
+          {sectionsLists.map((section, index: number) => (
             <li key={section.id}>
               <SectionCard
-                {...{ ...section, index }}
+                {...section}
+                index={index}
                 isSelected={selectedIds.includes(section.id)}
                 onToggle={() => toggleSectionSelect(section.id)}
               />

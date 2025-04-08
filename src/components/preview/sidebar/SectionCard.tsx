@@ -2,7 +2,6 @@
 import { SectionChild } from "@/@types/sections";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getInitials } from "@/lib/stringUtils";
-import { useMemo } from "react";
 import { EllipsisVertical } from "lucide-react";
 import {
   DropdownMenu,
@@ -12,78 +11,106 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAppDispatch } from "@/store/hooks";
 import { removeSection } from "@/store/sections/sectionsSlice";
-import useSelectedSections from "@/hooks/useSelectedSection";
+import { useHoveredSection, useSelectedSections } from "@/hooks/useSection";
+import setColor from "@/lib/colorUtils";
 
-// interface for props
 interface SectionCardProps extends SectionChild {
   isSelected: boolean;
   onToggle: (id: number) => void;
+  index: number;
 }
 
-/**
- * ===========================================================================
- * SectionCard Component
- * @param props
- * @returns
- * ===========================================================================
- */
-const SectionCard: React.FC<SectionCardProps> = (props) => {
-  const { id, label, content, isSelected, onToggle } = props;
-
-  const { removeItem } = useSelectedSections();
-
-  /**
-   * remove the item
-   */
+const SectionCard: React.FC<SectionCardProps> = ({
+  id,
+  label,
+  content,
+  isSelected,
+  onToggle,
+  index,
+}) => {
   const dispatch = useAppDispatch();
+  const { removeItem } = useSelectedSections();
+  const { updateHoveredID, hoveredID } = useHoveredSection();
 
   const removeSectionFromList = (id: number) => {
     dispatch(removeSection(id));
     removeItem(id);
   };
 
-  /**
-   * function to get the initials of the label
-   */
-  const initials = useMemo(() => getInitials(label), [label]);
+  const initials = getInitials(label);
+  const defaultStyles = "bg-primary border-primary-border";
+  const dynamicColor = setColor(index);
 
-  // fallback of color
-  const defaultColor = "bg-primary border-primary-border";
+  const colorStyles = dynamicColor
+    ? {
+        background: `rgba(${dynamicColor}, 0.3)`,
+        borderColor: `rgba(${dynamicColor})`,
+      }
+    : {};
 
   return (
-    <label className="bg-muted flex items-start gap-3 rounded-md p-4 text-sm">
-      <div
-        className={`${defaultColor} w-[40px] shrink-0 rounded-md border-l-4 p-2 text-center text-xs`}
+    <div
+      className={`bg-muted relative flex items-start gap-1 rounded-md p-4 text-sm transition ${hoveredID == id ? "!bg-accent" : ""}`}
+      onMouseEnter={() => updateHoveredID(id)}
+      onMouseLeave={() => updateHoveredID(0)}
+    >
+      <label
+        htmlFor={`section-${id}`}
+        className="flex w-full cursor-pointer items-start gap-3"
       >
-        {initials}
-      </div>
-      <div className="flex flex-1 flex-col gap-2">
-        <div>{label}</div>
-        <div className="text-xs">{content?.value}</div>
-      </div>
-      <div className="">
-        <Checkbox
-          id={`section-${id}`}
-          checked={isSelected}
-          onCheckedChange={() => onToggle(id)}
-        />
-      </div>
-      <div className="">
+        <div
+          className={`${defaultStyles} w-[40px] shrink-0 rounded-md border-l-4 p-2 text-center text-xs`}
+          style={colorStyles}
+          aria-hidden="true"
+        >
+          {initials}
+        </div>
+        <div className="flex flex-1 flex-col gap-2">
+          <div className="font-medium">{label}</div>
+          <div className="text-muted-foreground text-xs">
+            {content?.value || "No content"}
+          </div>
+        </div>
+        <div className="shrink-0 pt-1">
+          <Checkbox
+            id={`section-${id}`}
+            checked={isSelected}
+            onCheckedChange={() => onToggle(id)}
+            aria-label={`Toggle selection for ${label}`}
+          />
+        </div>
+      </label>
+
+      <div className="top-4 right-4 z-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <EllipsisVertical size={16} className="cursor-pointer" />
+            <button
+              type="button"
+              aria-label={`Options for ${label}`}
+              className="hover:bg-muted-foreground/10 focus-visible:ring-ring rounded p-1 focus:outline-none focus-visible:ring-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <EllipsisVertical size={16} />
+            </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-auto min-w-0">
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel
-              className="cursor-pointer"
+              role="button"
+              tabIndex={0}
+              className="focus-visible:ring-ring cursor-pointer focus:outline-none focus-visible:ring-2"
               onClick={() => removeSectionFromList(id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  removeSectionFromList(id);
+                }
+              }}
             >
               Remove
             </DropdownMenuLabel>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </label>
+    </div>
   );
 };
 

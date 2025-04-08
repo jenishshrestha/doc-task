@@ -11,7 +11,7 @@
               "is_valid_format": true,
               "orig_value": "MR JOHN DOE",
               "page": 1,
-              "position": [110, 483, 283, 499],
+              "position": [110, 483, 180, 20],
               "position_label": [],
               "review_required": false,
               "validation_source": "ai",
@@ -43,10 +43,10 @@
               "is_valid_format": true,
               "orig_value": 123456789,
               "page": 1,
-              "position": [319, 170, 456, 195],
+              "position": [319, 170, 140, 20],
               "review_required": false,
               "validation_source": "ai",
-              "value": 123456789
+              "value": "01234567890"
             },
             "doc_id": "a2cbec1124234a6d846f908ba9531a2e",
             "format": "%d",
@@ -74,7 +74,7 @@
               "is_valid_format": true,
               "orig_value": "WELLS FARGO",
               "page": 1,
-              "position": [1409, 133, 1538, 187],
+              "position": [1409, 133, 130, 55],
               "review_required": false,
               "validation_source": "ai",
               "value": "WELLS FARGO"
@@ -105,7 +105,7 @@
               "is_valid_format": true,
               "orig_value": 869.4,
               "page": 1,
-              "position": [748, 1356, 820, 1371],
+              "position": [748, 1356, 75, 20],
               "review_required": false,
               "validation_source": "ai",
               "value": 869.4
@@ -136,7 +136,7 @@
               "is_valid_format": true,
               "orig_value": 371.18,
               "page": 1,
-              "position": [748, 1464, 821, 1476],
+              "position": [748, 1464, 75, 20],
               "review_required": false,
               "validation_source": "ai",
               "value": 371.18
@@ -167,7 +167,7 @@
               "is_valid_format": false,
               "orig_value": "July 1, 2018,",
               "page": 1,
-              "position": [515, 171, 653, 194],
+              "position": [515, 171, 140, 20],
               "review_required": true,
               "validation_source": "ai",
               "value": "July 1, 2018,"
@@ -198,7 +198,7 @@
               "is_valid_format": true,
               "orig_value": "07/31/2018",
               "page": 1,
-              "position": [678, 172, 827, 195],
+              "position": [678, 172, 150, 20],
               "review_required": false,
               "validation_source": "ai",
               "value": "07/31/2018"
@@ -229,7 +229,7 @@
               "is_valid_format": true,
               "orig_value": "2 POST ALLEY, SEATTLE, WA 98101",
               "page": 1,
-              "position": [110, 516, 349, 572],
+              "position": [110, 516, 240, 70],
               "review_required": false,
               "validation_source": "ai",
               "value": "2 POST ALLEY, SEATTLE, WA 98101"
@@ -260,7 +260,7 @@
               "is_valid_format": true,
               "orig_value": "Checking",
               "page": 1,
-              "position": [829, 108, 1048, 153],
+              "position": [829, 108, 220, 50],
               "review_required": false,
               "validation_source": "ai",
               "value": "Checking"

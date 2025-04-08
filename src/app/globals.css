@@ -58,15 +58,6 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-primary-border: var(--primary-border);
   --color-theme-blue: oklch(0.73 0.14 253.01);
-  /* colors for sections */
-  --color-section-red: oklch(62.8% 0.257 29.23);
-  --color-section-blue: oklch(62.8% 0.257 29.23);
-  --color-section-orange: oklch(62.8% 0.257 29.23);
-  --color-section-dark-red: oklch(62.8% 0.257 29.23);
-  --color-section-yellow: oklch(62.8% 0.257 29.23);
-  --color-section-pink: oklch(62.8% 0.257 29.23);
-  --color-section-green: oklch(62.8% 0.257 29.23);
-  --color-section-dark-blue: oklch(62.8% 0.257 29.23);
 }
 
 :root {
@@ -120,7 +111,7 @@
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.29 0.02 248.64);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.48 0.02 237.27);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);

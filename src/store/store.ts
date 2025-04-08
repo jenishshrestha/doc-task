@@ -10,6 +10,8 @@ import sectionsApi from "@/services/sectionsApi";
 
 import setSectionReducer from "./sections/sectionsSlice";
 
+import sectionHoverReducer from "./sections/sectionHoveredSlice";
+
 /**
  * ==============================================================================
  * Store Configuration
@@ -21,6 +23,7 @@ const store = configureStore({
     themeToggle: themeToggleReducer,
     sectionsLists: setSectionReducer,
     sectionSelected: sectionSelectedReducer,
+    sectionHovered: sectionHoverReducer,
     // Add sectionsApi reducer as well for handling RTK Query cache state
     [sectionsApi.reducerPath]: sectionsApi.reducer,
   },

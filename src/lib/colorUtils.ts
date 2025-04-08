@@ -1,22 +1,28 @@
-export const COLORS_CLASSES = [
-  "section-red",
-  "section-blue",
-  "section-orange",
-  "section-dark-red",
-  "section-yellow",
-  "section-pink",
-  "section-green",
-  "section-dark-blue",
+export const COLOR_LIST = [
+  "255, 0, 30",
+  "0, 150, 190",
+  "225, 135, 65",
+  "124, 30, 55",
+  "255, 225, 20",
+  "205, 120, 125",
+  "45, 125, 30",
+  "20, 50, 255",
 ] as const;
 
-export const getColorClass = (
-  index: number,
-): (typeof COLORS_CLASSES)[number] => {
-  // Normalize the index to be within the range of the COLORS array length
+/**
+ * ===============================================================================
+ * Set Color to dynamic element based on the index
+ * @param index
+ * @returns
+ */
+const setColor = (index: number): (typeof COLOR_LIST)[number] => {
+  // Normalize the index to be within the range of the COLOR_LIST array length
   const normalizedIndex =
     index < 0
-      ? (index % COLORS_CLASSES.length) + COLORS_CLASSES.length
-      : index % COLORS_CLASSES.length;
+      ? (index % COLOR_LIST.length) + COLOR_LIST.length
+      : index % COLOR_LIST.length;
 
-  return COLORS_CLASSES[normalizedIndex];
+  return COLOR_LIST[normalizedIndex];
 };
+
+export default setColor;

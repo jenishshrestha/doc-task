@@ -16,7 +16,7 @@ const initialState: SectionsState = {
  * ==============================================================================
  */
 const sectionSelectedSlice = createSlice({
-  name: "themeToggle",
+  name: "selectedIDs",
   initialState: initialState,
   reducers: {
     toggleSection: (state, action: PayloadAction<number>) => {
