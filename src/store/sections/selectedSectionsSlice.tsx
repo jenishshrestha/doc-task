@@ -33,10 +33,18 @@ const sectionSelectedSlice = createSlice({
     clearSelection: (state) => {
       state.selectedIds = [];
     },
+    removeSelected: (state, action: PayloadAction<number>) => {
+      const index = state.selectedIds.indexOf(action.payload);
+      state.selectedIds.splice(index, 1);
+    },
   },
 });
 
-export const { toggleSection, selectAllSections, clearSelection } =
-  sectionSelectedSlice.actions;
+export const {
+  toggleSection,
+  selectAllSections,
+  clearSelection,
+  removeSelected,
+} = sectionSelectedSlice.actions;
 
 export default sectionSelectedSlice.reducer;

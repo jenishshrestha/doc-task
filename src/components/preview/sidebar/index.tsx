@@ -17,33 +17,63 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
 
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+
+import { setSections } from "@/store/sections/sectionsSlice";
+
+/**
+ * ==========================================================================
+ * Sidebar component
+ * @returns Sidebar component
+ * ==========================================================================
+ */
 const Sidebar: React.FC = () => {
+  /**
+   * Handling the fetched data
+   */
   const { data: jsonData, error, isLoading } = useFetchSectionsQuery();
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [isConfirming, setIsConfirming] = useState(false);
+  // storing the data in a global state to manipulate
+  const sectionsLists = useAppSelector((state) => state.sectionsLists.sections);
 
-  // useSelectedSections hook to get selected ids and toggle function
+  const dispatch = useAppDispatch();
+
+  // set data to a global state
+  useEffect(() => {
+    dispatch(setSections(jsonData?.data?.sections[0].children ?? []));
+  }, [dispatch, jsonData]);
+
+  /**
+   * useSelectedSections hook to get selected ids and toggle function
+   */
   const { selectedIds, selectAll, areAllSelected, clearAll } =
     useSelectedSections();
 
-  // function to toggle select all and save the section ids
+  /**
+   * function to toggle select all and save the section ids
+   **/
   const toggleSelectAll = () => {
-    if (!jsonData?.data?.sections[0].children) return;
-    const allIds = jsonData.data.sections[0].children.map((s) => s.id);
-    if (areAllSelected(jsonData.data.sections[0].children.length)) {
+    if (!sectionsLists) return;
+    const allIds = sectionsLists.map((s) => s.id);
+    if (areAllSelected(sectionsLists.length)) {
       clearAll();
     } else {
       selectAll(allIds);
     }
   };
 
-  // dummy functinality to handle confirm button
+  /**
+   * dummy functinality to handle confirm button
+   */
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+
   const handleConfirm = () => {
     setIsConfirming(true);
 
@@ -74,12 +104,12 @@ const Sidebar: React.FC = () => {
               ) : error ? (
                 <p>Error: {formatRTKQueryError(error)}</p>
               ) : (
-                <SectionsLists data={jsonData} />
+                <SectionsLists />
               )}
             </ScrollArea>
           </div>
         </TabsContent>
-        <TabsContent value="columnFields">Column</TabsContent>
+        <TabsContent value="columnFields">Column Fields Here</TabsContent>
       </Tabs>
 
       {/* buttons */}
@@ -101,6 +131,7 @@ const Sidebar: React.FC = () => {
               <AlertDialogTitle>
                 Are you sure you want to confirm the selected fields?
               </AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel disabled={isConfirming}>

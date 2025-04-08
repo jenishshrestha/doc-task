@@ -14,7 +14,7 @@ interface ResponseData {
   sections: Section[];
 }
 
-interface Section {
+export interface Section {
   children: SectionChild[];
   id: number;
   title: string;
