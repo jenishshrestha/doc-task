@@ -3,15 +3,16 @@ import { SectionChild } from "@/@types/sections";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getInitials } from "@/lib/stringUtils";
 import { useMemo } from "react";
-
 import { EllipsisVertical } from "lucide-react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAppDispatch } from "@/store/hooks";
+import { removeSection } from "@/store/sections/sectionsSlice";
+import useSelectedSections from "@/hooks/useSelectedSection";
 
 // interface for props
 interface SectionCardProps extends SectionChild {
@@ -19,10 +20,31 @@ interface SectionCardProps extends SectionChild {
   onToggle: (id: number) => void;
 }
 
+/**
+ * ===========================================================================
+ * SectionCard Component
+ * @param props
+ * @returns
+ * ===========================================================================
+ */
 const SectionCard: React.FC<SectionCardProps> = (props) => {
   const { id, label, content, isSelected, onToggle } = props;
 
-  // function to get the initials of the label
+  const { removeItem } = useSelectedSections();
+
+  /**
+   * remove the item
+   */
+  const dispatch = useAppDispatch();
+
+  const removeSectionFromList = (id: number) => {
+    dispatch(removeSection(id));
+    removeItem(id);
+  };
+
+  /**
+   * function to get the initials of the label
+   */
   const initials = useMemo(() => getInitials(label), [label]);
 
   // fallback of color
@@ -52,7 +74,10 @@ const SectionCard: React.FC<SectionCardProps> = (props) => {
             <EllipsisVertical size={16} className="cursor-pointer" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-auto min-w-0">
-            <DropdownMenuLabel className="cursor-pointer">
+            <DropdownMenuLabel
+              className="cursor-pointer"
+              onClick={() => removeSectionFromList(id)}
+            >
               Remove
             </DropdownMenuLabel>
           </DropdownMenuContent>

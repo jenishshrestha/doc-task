@@ -1,9 +1,9 @@
-import { AppDispatch, RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   toggleSection,
   selectAllSections,
   clearSelection,
+  removeSelected,
 } from "@/store/sections/selectedSectionsSlice";
 
 /**
@@ -14,10 +14,11 @@ import {
  */
 
 const useSelectedSections = () => {
-  const selectedIds = useSelector(
-    (state: RootState) => state.sectionSelected.selectedIds,
+  const selectedIds = useAppSelector(
+    (state) => state.sectionSelected.selectedIds,
   );
-  const dispatch = useDispatch<AppDispatch>();
+
+  const dispatch = useAppDispatch();
 
   // add/remove section id to state
   const toggleSectionSelect = (id: number) => {
@@ -34,9 +35,12 @@ const useSelectedSections = () => {
     totalCount > 0 && selectedIds.length === totalCount;
 
   // if all are selected then clear all
-
   const clearAll = () => {
     dispatch(clearSelection());
+  };
+
+  const removeItem = (id: number) => {
+    dispatch(removeSelected(id));
   };
 
   return {
@@ -45,6 +49,7 @@ const useSelectedSections = () => {
     selectAll,
     areAllSelected,
     clearAll,
+    removeItem,
   };
 };
 

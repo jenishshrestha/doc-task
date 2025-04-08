@@ -2,12 +2,7 @@
 
 import SectionCard from "./SectionCard";
 import useSelectedSections from "@/hooks/useSelectedSection";
-import { useEffect } from "react";
-import ApiResponse from "@/@types/sections";
-
-interface SectionsListsProps {
-  data: ApiResponse | undefined;
-}
+import { useAppSelector } from "@/store/hooks";
 
 /**
  * ==============================================================================
@@ -15,21 +10,17 @@ interface SectionsListsProps {
  * @description This component displays a list of sections in the sidebar.
  * ==============================================================================
  */
-const SectionsLists: React.FC<SectionsListsProps> = (props) => {
-  const { data: jsonData } = props;
+const SectionsLists: React.FC = () => {
+  const sectionsLists = useAppSelector((state) => state.sectionsLists.sections);
 
   // useSelectedSections hook to get selected ids and toggle function
   const { toggleSectionSelect, selectedIds } = useSelectedSections();
 
-  useEffect(() => {
-    console.log("Fetched Data:", selectedIds);
-  }, [selectedIds]);
-
   return (
     <div>
-      {jsonData && jsonData?.data?.sections[0].children.length > 0 ? (
+      {sectionsLists.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {jsonData?.data?.sections[0].children.map((section, index) => (
+          {sectionsLists.map((section, index) => (
             <li key={section.id}>
               <SectionCard
                 {...{ ...section, index }}

@@ -1,5 +1,4 @@
-import { RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleTheme } from "@/store/themeToggle/themeToggleSlice";
 
 /**
@@ -10,10 +9,10 @@ import { toggleTheme } from "@/store/themeToggle/themeToggleSlice";
  */
 
 const useTheme = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Get current mode from Redux: "light" or "dark"
-  const mode = useSelector((state: RootState) => state.themeToggle.mode);
+  const mode = useAppSelector((state) => state.themeToggle.mode);
 
   // Toggle theme
   const handleThemeToggle = () => {
