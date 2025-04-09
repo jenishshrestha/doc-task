@@ -110,11 +110,11 @@ project-root/
 
 ## ⚡ Lightspeed Insight
 
-![Lightspeed Insight](./public/images/lightspeed.webp)
+![Lightspeed Insight](./public/lightspeed.webp)
 
-![PageSpeed Insight](./public/images/pagespeed.webp)
+![PageSpeed Insight](./public/pagespeed.webp)
 
-![GTmetrix](./public/images/gtmetrix.webp)
+![GTmetrix](./public/gtmetrix.webp)
 
 ## Deployment
 
