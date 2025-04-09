@@ -6,7 +6,7 @@ A modern web application built with **Next.js**, **TypeScript**, and a fully cus
 
 ## ⚒️ Tasks Completed
 
-- 📘 [Read the Implementation Details](./TASKS.md)
+- 📘 [Task Lists](./TASKS.md)
 
 ---
 
