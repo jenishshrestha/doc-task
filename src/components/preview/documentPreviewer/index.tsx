@@ -8,7 +8,7 @@ import {
 
 import { Stage, Layer, Image as KonvaImage, Rect } from "react-konva";
 import useImage from "use-image";
-import sampleImage from "@/data/image/invoice.jpg";
+import sampleImage from "@/data/image/invoice.webp";
 import Loader from "@/components/loader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Controls from "./controls";
@@ -17,7 +17,6 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { formatRTKQueryError } from "@/lib/formatRtkError";
 import useDebounce from "@/hooks/useDebounceFunction";
 import { useAppSelector } from "@/store/hooks";
-import setColor from "@/lib/colorUtils";
 import { useHoveredSection } from "@/hooks/useSection";
 
 /**
@@ -142,29 +141,39 @@ const DocumentPreviewer: React.FC<{
               <TransformComponent wrapperClass="!w-full !h-full">
                 <Stage id="canvas" width={image?.width} height={image?.height}>
                   <Layer>
-                    {/* render image/document */}
                     {image && <KonvaImage image={image} />}
-                    {/* render bounding boxes */}
-                    {fields.map((field, index) => (
-                      <Rect
-                        key={field.id}
-                        x={field?.content?.position[0]}
-                        y={field?.content?.position[1]}
-                        width={field?.content?.position[2]}
-                        height={field?.content?.position[3]}
-                        onMouseEnter={() => updateHoveredID(field.id)}
-                        onMouseLeave={() => updateHoveredID(0)}
-                        fill={`rgb(${setColor(index)})`}
-                        opacity={
-                          hoveredID === field.id ||
-                          selectedFields.includes(field.id)
-                            ? 0.5
-                            : 0
+
+                    {fields.map((field) => {
+                      const isActive =
+                        hoveredID === field.id ||
+                        selectedFields.includes(field.id);
+
+                      const positions = Array.isArray(
+                        field?.content?.position?.[0],
+                      )
+                        ? field?.content?.position
+                        : [field?.content?.position];
+
+                      return positions.map((rect, rectIndex) => {
+                        if (Array.isArray(rect)) {
+                          return (
+                            <Rect
+                              key={`${field.id}-${rectIndex}`}
+                              x={rect[0]}
+                              y={rect[1]}
+                              width={rect[2]}
+                              height={rect[3]}
+                              fill={`rgb(${field.color})`}
+                              opacity={isActive ? 0.5 : 0}
+                              onMouseEnter={() => updateHoveredID(field.id)}
+                              onMouseLeave={() => updateHoveredID(0)}
+                              cursor="pointer"
+                            />
+                          );
                         }
-                        className="cursor-pointer"
-                        cursor="pointer"
-                      />
-                    ))}
+                        return null;
+                      });
+                    })}
                   </Layer>
                 </Stage>
               </TransformComponent>

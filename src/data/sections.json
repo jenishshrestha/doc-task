@@ -43,7 +43,10 @@
               "is_valid_format": true,
               "orig_value": 123456789,
               "page": 1,
-              "position": [319, 170, 140, 20],
+              "position": [
+                [319, 170, 140, 20],
+                [1215, 1310, 120, 20]
+              ],
               "review_required": false,
               "validation_source": "ai",
               "value": "01234567890"
@@ -74,7 +77,10 @@
               "is_valid_format": true,
               "orig_value": "WELLS FARGO",
               "page": 1,
-              "position": [1409, 133, 130, 55],
+              "position": [
+                [115, 100, 280, 55],
+                [1409, 133, 130, 55]
+              ],
               "review_required": false,
               "validation_source": "ai",
               "value": "WELLS FARGO"

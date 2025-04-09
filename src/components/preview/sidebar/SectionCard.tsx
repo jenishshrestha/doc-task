@@ -12,12 +12,10 @@ import {
 import { useAppDispatch } from "@/store/hooks";
 import { removeSection } from "@/store/sections/sectionsSlice";
 import { useHoveredSection, useSelectedSections } from "@/hooks/useSection";
-import setColor from "@/lib/colorUtils";
 
 interface SectionCardProps extends SectionChild {
   isSelected: boolean;
   onToggle: (id: number) => void;
-  index: number;
 }
 
 const SectionCard: React.FC<SectionCardProps> = ({
@@ -26,7 +24,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
   content,
   isSelected,
   onToggle,
-  index,
+  color,
 }) => {
   const dispatch = useAppDispatch();
   const { removeItem } = useSelectedSections();
@@ -39,7 +37,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
 
   const initials = getInitials(label);
   const defaultStyles = "bg-primary border-primary-border";
-  const dynamicColor = setColor(index);
+  const dynamicColor = color;
 
   const colorStyles = dynamicColor
     ? {
