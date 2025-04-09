@@ -49,6 +49,7 @@ export interface SectionChild {
   sub_p_type?: string;
   row_count?: number;
   index?: number;
+  color: string;
 }
 
 interface Content {

@@ -20,11 +20,10 @@ const SectionsLists: React.FC = () => {
     <div>
       {sectionsLists.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {sectionsLists.map((section, index: number) => (
+          {sectionsLists.map((section) => (
             <li key={section.id}>
               <SectionCard
                 {...section}
-                index={index}
                 isSelected={selectedIds.includes(section.id)}
                 onToggle={() => toggleSectionSelect(section.id)}
               />
